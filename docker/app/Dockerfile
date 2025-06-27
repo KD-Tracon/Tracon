@@ -54,3 +54,5 @@ RUN chown -R "${USERNAME}:${USERNAME}" /app
 USER ${USERNAME}
 ENV PATH="/home/${USERNAME}/.composer/vendor/bin:/home/${USERNAME}/.local/bin:${PATH}"
 
+# PHP アップロード制限を緩和
+COPY ./docker/php/uploads.ini /usr/local/etc/php/conf.d/
