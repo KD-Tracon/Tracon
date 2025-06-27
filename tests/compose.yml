@@ -1,7 +1,0 @@
-services:
-  web:
-    image: ""
-    build: docker/web
-
-  app:
-    build: docker/app
