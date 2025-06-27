@@ -1,61 +1,135 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Tracon 開発環境セットアップガイド（VSCode Dev Container 版）
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+このドキュメントは、Laravel ベースの Tracon プロジェクトを VSCode Dev Container を用いてセットアップする手順をまとめたものです。Docker を用いた開発環境の構築に必要なすべてのステップが含まれています。
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 前提条件
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+以下のツールがインストールされていることを確認してください：
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Visual Studio Code（最新版）
+- 拡張機能：
+  - Dev Containers または Remote - Containers
+- Docker Desktop
+- `.env` ファイル： `.env.example` をコピーして作成可能
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## セットアップ手順
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. プロジェクトをクローン
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+git clone https://github.com/KD-Tracon/Tracon.git
+cd Tracon
+```
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. `.env` ファイルを作成（未作成の場合）
 
-### Premium Partners
+```bash
+cp .env.example .env
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+> `.env` 内の `DB_CONNECTION` を `pgsql` に変更してください。また、以下の値を追記または変更します：
 
-## Contributing
+```env
+DB_CONNECTION=pgsql
+DB_HOST=db
+DB_PORT=5432
+DB_DATABASE=tracon
+DB_USERNAME=tracon_user
+DB_PASSWORD=securepassword
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+`.env` の設定に合わせて、`env.txt` にも同様の内容を記述してください。
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3. VSCode でプロジェクトフォルダを開く
 
-## Security Vulnerabilities
+プロジェクトルート（`Tracon` フォルダ）を Visual Studio Code で開いてください。
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+### 4. Dev Container を起動
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+画面左下の「>< Dev Container」アイコン、またはコマンドパレット（`Ctrl+Shift+P`）から次を実行：
+
+```
+Dev Containers: Reopen in Container
+```
+
+初回起動時は、必要な Docker イメージがビルドされるため時間がかかる場合があります。
+
+---
+
+### 5. コンテナ内で初期化コマンドを実行
+
+VSCode のターミナルで以下のコマンドを順に実行してください：
+
+```bash
+composer install
+php artisan key:generate
+php artisan migrate
+php artisan storage:link
+```
+
+---
+
+### 6. 動作確認
+
+ブラウザで以下の URL にアクセス：
+
+```
+http://localhost:{フォワードされたポート番号}
+```
+
+アップロード画面が表示され、動画をアップロードすると `Hello, world` が表示されます。
+
+---
+
+## 動画ファイルの外部保存（オプション）
+
+ホストマシン側の任意のディレクトリに動画ファイルを保存したい場合、以下のようにシンボリックリンクを作成します：
+
+```bash
+mkdir -p /your/path/videos
+ln -s /your/path/videos storage/app/public/videos
+```
+
+---
+
+## Dev Container の構成概要
+
+- 使用構成ファイル：
+  - `.devcontainer/main/devcontainer.json`
+  - `.devcontainer/main/compose.yml`
+  - `compose.yml`
+
+- サービス一覧：
+  - `web`：Nginx
+  - `app`：PHP（Laravel アプリケーション）
+  - `db`：PostgreSQL
+  - `phpmyadmin`：DB 管理 UI（PostgreSQL 用には Adminer ではなく phpMyAdmin を使用）
+
+- フォワードポート：
+  - `web:80`
+  - `phpmyadmin:8080`
+
+---
+
+## トラブルシューティング
+
+| 症状             | 対処方法                                                            |
+| ---------------- | ------------------------------------------------------------------ |
+| コンテナが自動で終了する | `.devcontainer.json` に "shutdownAction": "none" を追加           |
+| DB に接続できない     | `.env` と `docker-compose.yml` の PostgreSQL 設定を確認             |
+| Python が実行できない | `app` コンテナ内に `python3` が存在するか確認し、無ければ `apt install python3` を実行 |
+
+---
+
+以上で Tracon 開発環境のセットアップは完了です。継続的な開発のために Dev Container を利用した効率的な環境構築をぜひ活用してください。
+
