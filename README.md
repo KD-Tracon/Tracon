@@ -75,8 +75,16 @@ composer install
 php artisan key:generate
 php artisan migrate
 php artisan storage:link
+```  
+万が一以下のコマンド実行時にエラーが表示された際は、コマンド実行してからコマンド実行してください
+```bash
+$ php artisan storage:link
+   ERROR  The [public/storage] link already exists.  
 ```
-
+エラー発生時の実行コマンド
+```bash
+rm -rf public/storage
+```
 ---
 
 ### 6. 動作確認
