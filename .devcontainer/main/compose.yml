@@ -36,7 +36,6 @@ services:
     depends_on:
       - db
     env_file:
-      - ./env.txt
-      - ./.env-pma.txt
+      - ./.env
     ports:
       - 127.0.0.1::80
