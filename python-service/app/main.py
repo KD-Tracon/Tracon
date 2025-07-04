@@ -3,7 +3,7 @@ from fastapi import FastAPI, UploadFile, File
 from pathlib import Path
 import shutil, tempfile
 
-from runner import run_python_job
+from .runner import run_python_job
 
 app = FastAPI()
 

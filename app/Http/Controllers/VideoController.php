@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;   // ★追加
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
+    /** ←★ 追加：アップロード画面を表示するだけ */
+    public function form()
+    {
+        return view('upload');          // resources/views/upload.blade.php
+    }
+
     /**
-     * 動画アップロードフォームから呼ばれる処理。
-     * 1) ファイルを storage/app/public/videos へ保存
-     * 2) FastAPI に multipart POST
-     * 3) 結果を Blade へ渡す
+     * 送信された動画を処理して結果を返す
      */
     public function store(Request $request)
     {
@@ -23,16 +26,17 @@ class VideoController extends Controller
         // ① 保存
         $path = $request->file('video')->store('videos', 'public');
 
-        // ② FastAPI へ送信（Laravel 12 の HTTP Client）:contentReference[oaicite:4]{index=4}
+        // ② FastAPI へ送信
         $response = Http::attach(
-            'file',
-            Storage::disk('public')->get($path),
-            basename($path)
-        )->post(config('services.python_api.url') . '/run')
-         ->timeout(30)        // ネットワーク安全策
-         ->throw();           // 4xx / 5xx は例外に
+                'file',
+                Storage::disk('public')->get($path),
+                basename($path)
+            )
+            ->timeout(30)                 // ← post() の **前** に移動
+            ->post(config('services.python_api.url') . '/run')
+            ->throw();
 
-        // ③ Blade へ
+        // ③ 結果を表示
         return view('result', [
             'videoPath' => $path,
             'pythonOut' => $response['stdout'] ?? 'No output',
