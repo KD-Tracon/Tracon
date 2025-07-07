@@ -18,7 +18,8 @@
       background: white;
       border-radius: 16px;
       padding: 30px;
-      width: 500px;
+      width: 1000px;
+      max-width: 95%;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
@@ -34,7 +35,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
       position: relative;
       text-align: center;
     }
@@ -52,13 +53,26 @@
       z-index: 1;
     }
 
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -10px;
+      gap: 40px; /* 横の余白を追加 */
+    }
+
+    .form-column {
+      flex: 1;
+      min-width: 300px;
+      padding: 0 10px;
+    }
+
     .input-group {
-      margin-bottom: 12px;
+      margin-bottom: 40px; /* 下の間隔を広く */
     }
 
     label {
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       font-weight: bold;
     }
 
@@ -73,9 +87,9 @@
     }
 
     .analyze-button {
-      margin-top: 20px;
+      margin-top: 24px;
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       background-color: #c5b1f3;
       color: white;
       border: none;
@@ -89,12 +103,24 @@
     }
 
     .alert {
-      padding: 10px;
-      margin-bottom: 16px;
+      padding: 12px;
+      margin-bottom: 20px;
       border-radius: 6px;
       background-color: #ffe0e0;
       color: #a33;
       font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+        margin: 0;
+      }
+
+      .form-column {
+        width: 100%;
+        padding: 0;
+      }
     }
   </style>
 </head>
@@ -113,7 +139,7 @@
       </div>
     @endif
 
-    {{-- 動画が添付された通知（セッション） --}}
+    {{-- 動画が添付された通知 --}}
     @if (session('video_uploaded'))
       <div class="alert" style="background-color:#e0ffe0; color:#3a3;">
         「{{ session('video_uploaded') }}」が添付されました。
@@ -128,29 +154,35 @@
         <input type="file" id="video-input" name="video" accept="video/*" required>
       </div>
 
-      <div class="input-group">
-        <label for="place">場所</label>
-        <input type="text" id="place" name="place" placeholder="例：渋谷交差点" required>
-      </div>
+      <div class="form-row">
+        <div class="form-column">
+          <div class="input-group">
+            <label for="place">場所</label>
+            <input type="text" id="place" name="place" placeholder="例：渋谷交差点" required>
+          </div>
 
-      <div class="input-group">
-        <label for="weather">気候</label>
-        <input type="text" id="weather" name="weather" placeholder="例：晴れ / 曇り / 雨" required>
-      </div>
+          <div class="input-group">
+            <label for="weather">気候</label>
+            <input type="text" id="weather" name="weather" placeholder="例：晴れ / 曇り / 雨" required>
+          </div>
+        </div>
 
-      <div class="input-group">
-        <label for="temperature">気温</label>
-        <input type="text" id="temperature" name="temperature" placeholder="例：28℃" required>
-      </div>
+        <div class="form-column">
+          <div class="input-group">
+            <label for="temperature">気温</label>
+            <input type="text" id="temperature" name="temperature" placeholder="例：28℃" required>
+          </div>
 
-      <div class="input-group">
-        <label for="time">時刻</label>
-        <input type="time" id="time" name="time" required>
-      </div>
+          <div class="input-group">
+            <label for="time">時刻</label>
+            <input type="time" id="time" name="time" required>
+          </div>
 
-      <div class="input-group">
-        <label for="date">撮影日</label>
-        <input type="date" id="date" name="date" required>
+          <div class="input-group">
+            <label for="date">撮影日</label>
+            <input type="date" id="date" name="date" required>
+          </div>
+        </div>
       </div>
 
       <button type="submit" class="analyze-button">分析</button>
