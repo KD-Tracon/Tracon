@@ -141,9 +141,9 @@
         new Chart(document.getElementById('Purpose'), {
             type: 'pie',
             data: {
-                labels: ['地元利用者', '運送', '観光客', 'バス'],
+                labels: ['地元利用', '観光客', '運送', 'バス'],
                 datasets: [{
-                    data: [23, 11, 15, 30],
+                    data: [1070, 584, 195, 97],
                     backgroundColor: ['#f44336', '#ff9800', '#FFDF29', '#2196f3']
                 }]
             },
