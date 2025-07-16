@@ -77,15 +77,19 @@
     <div class="left-section">
       <h2>分析結果一覧</h2>
       <div class="data-list">
-        @foreach ($results as $result)
+        {{-- @foreach ($results as $result)
           <a href="{{ route('result.show', ['id' => $result->id]) }}" class="data-button">
             <span class="icon">📄</span> {{ $result->title }}
           </a>
-        @endforeach
+        @endforeach --}}
+          <a href="" class="data-button">
+            <span class="icon">📄</span>テスト
+          </a>
+
       </div>
     </div>
     <div class="right-section">
-      <form action="{{ route('upload') }}" method="get">
+      <form action="{{ route('video.form') }}" method="get">
         <button class="upload-btn">アップロード</button>
       </form>
     </div>
