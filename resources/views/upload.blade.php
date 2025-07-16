@@ -185,7 +185,7 @@
         </div>
       </div>
 
-      <button type="submit" class="analyze-button">分析</button>
+      <button type="button" class="analyze-button" onclick="location.href='{{ route('uploadnow') }}'">分析</button>
     </form>
   </div>
 

@@ -67,7 +67,7 @@
         <div class="progress-fill" style="width: 45%;"></div> <!-- %の値を変えることでwidth変更可能 -->
     </div>
     <div class="info-text">動画解析が完了するとメニュー画面から分析結果を確認できます。</div>
-    <button class="menu-button" >
+    <button class="menu-button" onclick="location.href='{{ route('menu') }}'">
         メニュー画面へ戻る
     </button>
 </body>
