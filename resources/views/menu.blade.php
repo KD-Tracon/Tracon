@@ -10,6 +10,7 @@
       background-color: #f9f8fc;
       margin: 0;
       padding: 20px;
+      user-select:  none; /*キャレットが表示されないように設定*/
     }
 
     .container {

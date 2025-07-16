@@ -11,6 +11,9 @@
     <h1 class="mb-4">実行結果</h1>
     <!--css-->
     <style>
+    body {
+        user-select:  none; /*キャレットが表示されないように設定*/
+    }
     .time_weather {
       display: flex;
       gap: 12px; /* 各項目の間に余白を追加 */
