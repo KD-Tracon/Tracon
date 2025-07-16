@@ -1,3 +1,4 @@
+<?php
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -7,7 +8,8 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $results = AnalysisResult::latest()->get();
-        return view('menu', compact('results'));
+        // $results = AnalysisResult::latest()->get();
+        // return view('menu', compact('results'));
+        return view('menu');
     }
 }

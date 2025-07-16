@@ -82,7 +82,7 @@
             <span class="icon">📄</span> {{ $result->title }}
           </a>
         @endforeach --}}
-          <a href="" class="data-button">
+          <a href="{{route('result.show')}}" class="data-button">
             <span class="icon">📄</span>テスト
           </a>
 

@@ -37,7 +37,7 @@ class VideoController extends Controller
             ->throw();
 
         // ③ 結果を表示
-        return view('result', [
+        return view('uploadnow', [
             'videoPath' => $path,
             'pythonOut' => $response['stdout'] ?? 'No output',
         ]);
